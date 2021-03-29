@@ -14,6 +14,7 @@ map_file = open(map_1, 'r')
 lines = map_file.readlines()
 x_map = []
 xy_map = []
+hits = []
 
 for element in lines:
     x_map = []
@@ -63,16 +64,30 @@ class Player(pygame.sprite.Sprite):
         self.speed_x = 0
         self.speed_y = 0
         key_state = pygame.key.get_pressed()
-        if key_state[pygame.K_LEFT]:
-            self.speed_x = -8
-        if key_state[pygame.K_RIGHT]:
-            self.speed_x = 8
-        if key_state[pygame.K_UP]:
-            self.speed_y = -8
-        if key_state[pygame.K_DOWN]:
-            self.speed_y = 8
-        self.rect.x += self.speed_x
-        self.rect.y += self.speed_y
+        while key_state[pygame.K_LEFT]:
+            self.rect.x += -1
+            if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
+                self.rect.left += 1
+            if key_state[pygame.K_LEFT] == 1:
+                break
+        while key_state[pygame.K_RIGHT]:
+            self.rect.x += 1
+            if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
+                self.rect.right += -1
+            if key_state[pygame.K_RIGHT] == 1:
+                    break
+        while key_state[pygame.K_UP]:
+            self.rect.y += -1
+            if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
+                self.rect.top += 1
+            if key_state[pygame.K_UP] == 1:
+                break
+        while key_state[pygame.K_DOWN]:
+            self.rect.y += 1
+            if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
+                self.rect.bottom += -1
+            if key_state[pygame.K_DOWN] == 1:
+                break
 
 
 # Create game window
@@ -82,20 +97,22 @@ screen = pygame.display.set_mode((len(xy_map[0])*30, len(xy_map)*30))
 pygame.display.set_caption('My Game')
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
+walls = pygame.sprite.Group()
 
 # Wall creation
 for i in range(len(xy_map)):
     for j in range(len(xy_map[i])):
         if xy_map[i][j] == 'x':
-            wall = Wall(j*30,i*30)
+            wall = Wall(j*30, i*30)
             all_sprites.add(wall)
+            walls.add(wall)
 
 # Player creation
 player = Player()
 all_sprites.add(player)
 
 # Game cycle
-FPS = 30
+FPS = 240
 running = True
 while running:
     # Iterations per second
