@@ -64,30 +64,22 @@ class Player(pygame.sprite.Sprite):
         self.speed_x = 0
         self.speed_y = 0
         key_state = pygame.key.get_pressed()
-        while key_state[pygame.K_LEFT]:
+        if key_state[pygame.K_LEFT]:
             self.rect.x += -1
             if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
                 self.rect.left += 1
-            if key_state[pygame.K_LEFT] == 1:
-                break
-        while key_state[pygame.K_RIGHT]:
+        if key_state[pygame.K_RIGHT]:
             self.rect.x += 1
             if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
                 self.rect.right += -1
-            if key_state[pygame.K_RIGHT] == 1:
-                    break
-        while key_state[pygame.K_UP]:
+        if key_state[pygame.K_UP]:
             self.rect.y += -1
             if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
                 self.rect.top += 1
-            if key_state[pygame.K_UP] == 1:
-                break
-        while key_state[pygame.K_DOWN]:
+        if key_state[pygame.K_DOWN]:
             self.rect.y += 1
             if len(pygame.sprite.spritecollide(player, walls, False)) != 0:
                 self.rect.bottom += -1
-            if key_state[pygame.K_DOWN] == 1:
-                break
 
 
 # Create game window
